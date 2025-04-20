@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meu Site com Anúncios</title>
   <link rel="stylesheet" href="style.css">
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2314289710027503"
-     crossorigin="anonymous"></script>
+
+  <!-- Cookie Consent CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
 </head>
+
 <body>
   <header>
     <h1>Bem-vindo</h1>
@@ -15,8 +17,7 @@
   </header>
 
   <main>
-    <section class="ad-space">
-      <!-- Aqui vai o código do anúncio -->
+    <section class="ad-space" id="ad-1">
       <p>Espaço para anúncio 1</p>
     </section>
 
@@ -30,14 +31,73 @@
       </ul>
     </section>
 
-    <section class="ad-space">
-      <!-- Outro anúncio -->
+    <section class="ad-space" id="ad-2">
       <p>Espaço para anúncio 2</p>
     </section>
   </main>
 
   <footer>
     <p>Feito com carinho.</p>
+    <p><a href="privacy.html">Política de Privacidade & GDPR</a></p>
   </footer>
+
+  <!-- Cookie Consent JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+  <script>
+    window.addEventListener("load", function () {
+      window.cookieconsent.initialise({
+        palette: {
+          popup: { background: "#1e1e1e", text: "#e0e0e0" },
+          button: { background: "#333", text: "#ffffff" }
+        },
+        theme: "classic",
+        content: {
+          message: "Usamos cookies para exibir anúncios personalizados. Aceita?",
+          dismiss: "Aceito",
+          deny: "Recusar",
+          link: "Saiba mais",
+          href: "privacy.html"
+        },
+        type: "opt-in",
+        onInitialise: function (status) {
+          if (this.hasConsented('ads')) {
+            carregarAdsense();
+          }
+        },
+        onStatusChange: function (status) {
+          if (this.hasConsented('ads')) {
+            carregarAdsense();
+          }
+        }
+      });
+
+      function carregarAdsense() {
+        const script = document.createElement('script');
+        script.setAttribute('async', '');
+        script.setAttribute('src', 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js');
+        script.setAttribute('data-ad-client', 'ca-pub-2314289710027503');
+        script.setAttribute('crossorigin', 'anonymous');
+        document.head.appendChild(script);
+
+        const ads = [
+          { id: "ad-1", slot: "1234567890" },
+          { id: "ad-2", slot: "0987654321" }
+        ];
+
+        ads.forEach(({ id, slot }) => {
+          const container = document.getElementById(id);
+          container.innerHTML = `
+            <ins class="adsbygoogle"
+              style="display:block"
+              data-ad-client="ca-pub-2314289710027503"
+              data-ad-slot="${slot}"
+              data-ad-format="auto"
+              data-full-width-responsive="true"></ins>
+          `;
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        });
+      }
+    });
+  </script>
 </body>
 </html>
